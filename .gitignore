@@ -1,0 +1,12 @@
+# OS
+.DS_Store
+
+# deps
+node_modules/
+
+# generated files
+storage/
+storage-dev/
+
+# generated public
+public/
