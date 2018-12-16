@@ -1,19 +1,6 @@
-/* global utils, query */
+/* global utils, query, opts */
 (async () => {
-  let defaults = {
-    title: 'badge.dog',
-    shieldTitle: 'HTML',
-    shieldTitleSize: 50,
-    shieldTitleColor: '#333',
-    shieldBg: '#E34C26',
-    shieldShadow: '#F06529',
-    shieldCharacter: 'five',
-    shieldCharacterColor: '#FFF',
-    googleFontName: 'Roboto'
-  }
-
-  let config = (typeof query !== 'undefined') ? { ...defaults, ...query } : defaults
-  // container
+  const config = (typeof query !== 'undefined') ? { ...opts, ...query } : opts
   // container
   const svg = await utils.createSvgElem(
     'svg',
@@ -44,16 +31,14 @@
 
   let splitTextToFit = async (textToSplit, { width, height }, fontSize) => {
     let text = await utils.createSvgElem(
-      'text', [['y', 0]],
+      'text', [],
       {
         fontFamily: config.googleFontName,
         fill: config.shieldTitleColor,
         fontSize: fontSize,
         fontWeight: 900,
-        dominantBaseline: 'hanging',
-        alignmentBaseline: 'baseline',
-        textAnchor: 'middle',
-        transform: 'translate(0, 5px)'
+        dominantBaseline: 'text-before-edge',
+        textAnchor: 'middle'
       },
       svg
     )

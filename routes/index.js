@@ -1,2 +1,3 @@
 const woof = require('./woof')
-module.exports = { woof }
+const opts = require('./opts')
+module.exports = { woof, opts }

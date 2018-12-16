@@ -1,21 +1,7 @@
-/* global  utils, query */
+/* global  utils, query, opts */
 (async () => {
-  let defaults = {
-    title: 'badge.dog',
-    leftText: 'BADGE',
-    leftBgColor: '#20A69A',
-    leftTextColor: '#FFF',
-    rightText: 'DOG',
-    rightBgColor: '#043B40',
-    rightTextColor: '#FFF',
-    paddingVer: 16,
-    paddingHor: 16,
-    fontSize: 14,
-    googleFontName: 'Lato'
-  }
-
   const createSvgElem = (elem) => document.createElementNS('http://www.w3.org/2000/svg', elem)
-  const config = (typeof query !== 'undefined') ? { ...defaults, ...query } : defaults
+  const config = (typeof query !== 'undefined') ? { ...opts, ...query } : opts
 
   // cast opts
   config.paddingVer = parseInt(config.paddingVer)
@@ -57,13 +43,13 @@
     let text = await utils.createSvgElem(
       'text', [
         ['x', offset + config.paddingHor / 2],
-        ['y', config.paddingVer / 2 + 2]
+        ['y', config.paddingVer / 2 + config.fontSize / 2 + 2]
       ],
       {
         fontFamily: config.googleFontName,
         fill: config[`${block}TextColor`],
         fontSize: config.fontSize,
-        dominantBaseline: 'hanging'
+        dominantBaseline: 'middle'
       },
       svg
     )
@@ -74,16 +60,15 @@
       'rect',
       [['x', offset]],
       {
-        fill: config[`${block}BgColor`],
-        width: text.getBBox().width + config.paddingHor,
-        height: text.getBBox().height + config.paddingVer
+        fill: config[`${block}BgColor`]
       }
     )
+    bg.setAttribute('width', text.getBBox().width + config.paddingHor)
+    bg.setAttribute('height', text.getBBox().height + config.paddingVer)
     svg.insertBefore(bg, text)
 
     // increment offset
-    offset = offset + parseInt(bg.style.width)
-
+    offset = offset + parseInt(bg.getAttribute('width'))
     if (i === blocks.length - 1) {
       // set svg size and save
       svg.setAttribute('width', offset)
