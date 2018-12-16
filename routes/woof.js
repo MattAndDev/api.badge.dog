@@ -5,6 +5,7 @@ const { fromString } = require('../services/hash')
 
 const woof = (app, storageDir) => {
   app.get('/woof/:template.:ext', async function (req, res) {
+    res.header('Access-Control-Allow-Origin', '*')
     let id = await fromString(req.url)
     let templateDir = resolve(`./templates/${req.params.template}/`)
     let targetStorageDir = resolve(`${storageDir}/${req.params.template}`)
